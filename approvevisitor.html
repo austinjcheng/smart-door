@@ -2,37 +2,49 @@
 <html>
 <body>
 
-<p>Enter the name and phone # of the visitor</p>
+<p>Enter the faceId</p>
 
-
-    Name: <input type="text" id="name"><br>
+    faceId: <input type="text" id="faceId"><br>
     <br>
-    Phone Number: <input type="text" id="phoneNum"><br>
+<p>Enter the name</p>
+
+    name: <input type="text" id="name"><br>
+    <br>
+<p>Enter the phone</p>
+
+    phone: <input type="text" id="phone"><br>
+    <br>
+<p>Enter the filename</p>
+
+    filename: <input type="text" id="filename"><br>
     <br>
   <input type="button" onclick="submit()" value="Submit">
 
 
 <script>
 function submit() {
-    
-    var http = new XMLHttpRequest();
-    var url = 'https://x6zz1j5a41.execute-api.us-west-2.amazonaws.com/prod/approvals';
-    var name = document.getElementById("name").value;
-    var phoneNum = document.getElementById("phoneNum").value;
-    var params = {"name" : name, "phoneNum" : phoneNum};
-    http.open('POST', url, true);
-    
-    //Send the proper header information along with the request
-    http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-    http.onreadystatechange = function() {//Call a function when the state changes.
-        if(http.readyState == 4 && http.status == 200) {
-            var response = http.responseText;
-            console.log(response);
-        }
-    }
-    console.log(params);
-    http.send(params);
+    var faceId = document.getElementById("faceId").value;
+    var name = document.getElementById("name").value;
+    var phone = document.getElementById("phone").value;
+    var filename = document.getElementById("filename").value;
+
+    const url = "https://nbrb8crzyb.execute-api.us-west-2.amazonaws.com/v1";
+    fetch(url, {
+        method : "POST",
+        body : JSON.stringify({
+            faceId : document.getElementById('faceId').value,
+            name : document.getElementById("name").value,
+            phone : document.getElementById("phone").value,
+            filename : document.getElementById("filename").value
+        })
+    }).then(
+        response => response.text() // .json(), etc.
+        // same as function(response) {return response.text();}
+    ).then(
+        html => console.log(html)
+    );
+    
 }
 
 </script>
